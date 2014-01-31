@@ -1,0 +1,108 @@
+sap.ui.controller("workitemgapdemo.demo", {
+
+	/**
+	 * Called when a controller is instantiated and its View controls (if
+	 * available) are already created. Can be used to modify the View before it
+	 * is displayed, to bind event handlers and do other one-time
+	 * initialization.
+	 * 
+	 * @memberOf workitemgapdemo.demo
+	 */
+	// onInit: function() {
+	//
+	// },
+	/**
+	 * Similar to onAfterRendering, but this hook is invoked before the
+	 * controller's View is re-rendered (NOT before the first rendering!
+	 * onInit() is used for that one!).
+	 * 
+	 * @memberOf workitemgapdemo.demo
+	 */
+	// onBeforeRendering: function() {
+	//
+	// },
+	/**
+	 * Called when the View has been rendered (so its HTML is part of the
+	 * document). Post-rendering manipulations of the HTML could be done here.
+	 * This hook is the same one that SAPUI5 controls get after being rendered.
+	 * 
+	 * @memberOf workitemgapdemo.demo
+	 */
+	// onAfterRendering: function() {
+	//
+	// },
+	/**
+	 * Called when the Controller is destroyed. Use this one to free resources
+	 * and finalize activities.
+	 * 
+	 * @memberOf workitemgapdemo.demo
+	 */
+	// onExit: function() {
+	//
+	// }
+	myButtonClicked : function() {
+		var workItems = [];		
+		var actualDuration=0;
+		var totalDuration=0;
+		var workItem0 = {
+			startTime : new Date(2014, 0, 30, 07, 00, 00),
+			endTime : new Date(2014, 0, 30, 09, 00, 00)
+		};
+
+		var workItem1 = {
+			startTime : new Date(2014, 0, 30, 11, 00, 00),
+			endTime : new Date(2014, 0, 30, 14, 00, 00)
+		};
+		var workItem2 = {
+			startTime : new Date(2014, 0, 30, 15, 00, 00),
+			endTime : new Date(2014, 0, 30, 16, 00, 00)
+		};
+		var workItem3 = {
+			startTime : new Date(2014, 0, 31, 09, 00, 00),
+			endTime : new Date(2014, 0, 31, 12, 00, 00)
+		};
+
+		workItems.push(workItem0);
+		workItems.push(workItem1);
+		workItems.push(workItem2);
+		workItems.push(workItem3);
+		
+		
+		function scanActualStartEnd(arr) {
+			var workItems = arr;
+			var start = null;
+			var end = null;
+
+			for ( var i = 0, len = workItems.length; i < len; i++) {
+				var start0 = workItems[i].startTime.getTime();
+				var end0 = workItems[i].endTime.getTime();
+				
+				if (start === null || start > start0)
+					start = start0;
+				if (end === null || end < end0)
+					end = end0;
+			}			
+			return [ start, end ];
+			
+		}
+		
+		var startEndDates = scanActualStartEnd(workItems);
+		totalDuration = startEndDates[1]-startEndDates[0];
+		console.log("Start Time :"+startEndDates[0]+" End Time :"+startEndDates[1]);
+		
+		for (var i=0,len=workItems.length;i<len;++i){
+			var start0 = workItems[i].startTime.getTime();
+			var end0 = workItems[i].endTime.getTime();
+			var diff = end0-start0;
+			actualDuration=actualDuration+diff;
+		}
+		
+		console.log("Total Duration :"+totalDuration);
+		console.log("Actual Duration :"+actualDuration);
+		console.log("Gap in workitems :"+(totalDuration-actualDuration));
+		
+		
+
+	}
+
+});
